@@ -1,0 +1,90 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb, amsthm}
+
+\title{%
+  \large Universidad Tecnológica Nacional\\
+  \large Facultad Regional Delta\\[3ex]
+  \Huge Proyecto de Aprendizaje N°2: Modulación AM y FM\\[2ex]
+  \large Comunicación de Datos%
+}
+\author{Agustín Demarco}
+\date{Octubre 2026}
+
+\begin{document}
+
+\maketitle
+
+\newpage
+
+\section{Introducción}
+Un sistema de comunicación tiene como objetivo transmitir información desde un emisor hasta un receptor a través de un canal. En ciertas situaciones, necesitamos transmitir información a grandes distancias, lo cual nos es imposible con mensajes de baja frecuencia. Para sortear este obstáculo, convertimos la señal en ondas electromagnéticas y realizamos una técnica llamada modulación.
+
+\subsection{Definición y Elementos}
+El libro define la modulación como "la variación sistemática de alguna característica de una señal, denominada portadora, en concordancia con la señal mensaje o señal modulante" (Cap. IV).
+Sus elementos son:
+\begin{itemize}
+  \item Señal mensaje/Moduladora ($m(t)$): Representa la información a ser transmitida.
+  \item Señal portadora/Carrier: Señal que servirá de "montura" para que viaje la información. Suele ser un sinusoide de alta frecuencia $f_c$.
+  \item Señal modulada/Modulada ($x_c(t)$): El resultado de la modulación.
+\end{itemize}
+
+\subsection{¿Por qué modulamos para transmitir información?}
+Para transmitir a gran distancia, necesitamos llevar la señal a una banda donde el canal transmite bien (pues tiene un ancho de banda útil). Para ello, trasladamos su espectro al de nuestra portadora, cuya frecuencia $f_c$ es mayor que la de nuestro mensaje a transmitir. Además, ganamos la ventaja de la multicanalización, ya que podemos poner muchos mensajes en el mismo medio, cada uno en su propia banda de frecuencias dentro del ancho de banda útil del canal. Sin embargo, transmitir a grandes distancias no solamente se soluciona con acoplar la señal al canal, también hay cuestiones (según el canal) de atenuación y ruido/interferencia, problemáticas las cuales también resolvemos a través de la modulación. Ciertos esquemas reducen los efectos del ruido, pero requieren más ancho de banda que el mensaje. Aparece así un compromiso entre ancho de banda y relación S/N.
+
+\subsection{Teorema de la Modulación}
+Multiplicar una señal $x(t)$ por $A\cos(2\pi f_ct)$ desplaza su espectro:
+\begin{equation}
+  x(t)A\cos(2\pi f_ct) \overset{\mathcal{F}}{\Longleftrightarrow} \frac{A}{2} [X(f + f_c) + X(f - f_c)]
+\end{equation}
+Una señal pasabajo (con ancho de banda $B=f_m$) se convierte en una señal pasabanda (con $B=2f_m$), manteniendo la condición de que $f_c \geq f_m$.
+
+\subsection{Señales Moduladas}
+Luego, la expresión de una señal modulada resulta:
+\begin{equation}
+  x_c(t)=A(t)\cos[\theta (t)]=A(t)\cos[2\pi f_ct + \phi (t)]
+\end{equation}
+O en su forma canónica:
+\begin{equation}
+  x_c(t)=m_c(t)\cos(2\pi f_ct)-m_s(t)\sin(2\pi f_ct), A(t)=\sqrt{m_c^2(t)+m_s^2(t)}
+\end{equation}
+Donde vemos claramente sus parámetros $A(t)$ (amplitud instantánea), $\theta (t)$ (fase instantánea) y $\phi (t)$ (desviación de fase instantánea). Según si variamos $A(t)$, $\phi (t)$ o su derivada linealmente con el mensaje, estaremos modulando en amplitud o ángulo (frecuencia/fase) respectivamente.
+
+\section{Sistemas de Modulación}
+
+\subsection{Modulación de Amplitud}
+
+\subsubsection{Modulación en Doble Banda Lateral con Portadora Suprimida (DSB)}
+Cuando la amplitud instantánea $A(t)$ es directamente proporcional al mensaje $m(t)$ se tiene la "Modulación DSB". En este caso, tomando la forma canónica de la señal modulada tenemos que $m_s(t)=0$, por lo que $A(t)=m_c(t)=A_cm(t)$ y $\phi (t)=0$, y la expresión de la modulada es:
+\begin{equation}
+  x_{DSB}(t)=A_cm(t)\cos(2\pi f_ct)
+\end{equation}
+Es decir, la modulada es simplemente el mensaje multiplicado por la portadora sin agregar la misma, donde $m(t)\overset{\mathcal{F}}{\Longleftrightarrow}M(f)$, y puesto que $m(t)$ contiene la información, podemos suponer también que $<m(t)>=0$ y entonces el espectro de $x_{DSB}(t)$ resulta:
+\begin{equation}
+  X_{DSB}(f)=\frac{A_c}{2}[M(f+f_c)+M(f-f_c)]
+\end{equation}
+Al ver el espectro, vemos como solo enviamos las bandas laterales (donde vive la información) sin la portadora. El transmisor DSB multiplica el mensaje por la señal portadora proveniente de un Oscilador Maestro, luego pasa por un filtro pasabanda con $B=2f_m$ y sale por la antena, donde es recibido por el receptor DSB tras atenuarse y sumar ruido. En el receptor pasa por un filtro de RF, y luego se multiplica por una copia local de la portadora generada por el Oscilador Local, que logra demodular la señal recibida y luego tras filtrar nos deja el mensaje (Detección Coherente).
+[Acá debería ir el gráfico del briceño página 449]
+Es eficiente ya que toda la potencia va a las bandas, pero tiene algunas serias desventajas: La envolvente de $x_{DSB}(t)$ es $\lvert m(t) \rvert$, no $m(t)$ por lo que precisa detección coherente (que es más compleja y cara), es un sistema de banda angosta y la más grave de todas, requiere perfecta sincronización de la portadora local, ya que si hay errores de frecuencia $\Delta f$ o de fase $\Delta \phi$ puede resultar en atenuación, desvanecimiento, inversión de la señal o incluso puede desaparecer si el oscilador está desfasado en $\Delta \phi = \pi$.  
+
+\subsubsection{Modulación de Amplitud con Portadora de gran Potencia (AM)}
+Para subsanar la limitación basica de sincronización de la modulación DSB, el método de "Modulación AM" se obtiene con una simple adición al sistema DSB ya visto: transmitir la portadora junto con la señal, evitando de esta forma la necesidad de generar una copia exacta de la portadora en el receptor. De esta forma, tenemos que $m_c(t)=0$, $A(t)=m_c(t)=[A_c+m(t)]$ y $\phi = 0$ por lo que resulta:
+\begin{equation}
+  x_{AM}(t)=[A_c + m(t)]\cos(2\pi f_ct)=m(t)\cos(2\pi f_ct) + A_c\cos(2\pi f_ct)
+\end{equation}
+Donde $A(t)=[A_c+m(t)]$ es la amplitud de la portadora modulada. Suponemos también que $<m(t)>=0$. El primer término de $x_{AM}(t)$ es una señal DSB y el segundo término la portadora agregada. Por lo tanto, el espectro correspondiente será:
+\begin{equation}
+  X_{AM}(f)=\frac{A_c}{2}[\delta (f+f_c) + \delta (f-f_c)] + \frac{1}{2} [M(f+f_c) + M(f-f_c)]
+\end{equation}
+El sistema de modulación AM primero en el receptor adiciona $A_c$ al mensaje $m(t)$ y luego multiplica por la portadora sinusoidal (modulador AM), y tras pasarlo por un filtro pasabanda, la modulada sale por la antena. Luego, el receptor recibe la señal atenuada y con ruido, la pasa por un filtro de RF y utiliza un detector de envolvente para quedarse con $E(t)$, la cual filtra con un filtro de pasabajos para demodular la señal.
+[Acá debería ir el gráfico del briceño página 451]
+La envolvente de la señal modulada es la señal mensaje desplazada en una constante $A_c$. Esta propiedad permite la extracción de la información mediante un detector de envolvente mientras la constante $A_c$ sea lo suficientemente alta para preservar la forma de la envolvente. Si no se cumple con esto, la envolvente pierde su forma y resulta muy difícil o imposible recuperar $m(t)$, en lo que se conoce como "sobremodulación".
+
+\section{Resultados}
+
+\section{Conclusiones}
+
+\section{Código}
+
+\end{document}
