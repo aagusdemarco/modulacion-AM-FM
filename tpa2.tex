@@ -2,6 +2,8 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{amsmath, amssymb, amsthm}
+\usepackage{graphicx}
+\graphicspath{{assets/}}
 
 \title{%
   \large Universidad Tecnológica Nacional\\
@@ -65,7 +67,12 @@ Es decir, la modulada es simplemente el mensaje multiplicado por la portadora si
   X_{DSB}(f)=\frac{A_c}{2}[M(f+f_c)+M(f-f_c)]
 \end{equation}
 Al ver el espectro, vemos como solo enviamos las bandas laterales (donde vive la información) sin la portadora. El transmisor DSB multiplica el mensaje por la señal portadora proveniente de un Oscilador Maestro, luego pasa por un filtro pasabanda con $B=2f_m$ y sale por la antena, donde es recibido por el receptor DSB tras atenuarse y sumar ruido. En el receptor pasa por un filtro de RF, y luego se multiplica por una copia local de la portadora generada por el Oscilador Local, que logra demodular la señal recibida y luego tras filtrar nos deja el mensaje (Detección Coherente).
-[Acá debería ir el gráfico del briceño página 449]
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.9\textwidth]{modulacion_dsb.png}
+  \caption{Modulación de Amplitud de Doble Banda Lateral con Portadora Suprimida}
+  \label{fig:Modulacion DSB}
+\end{figure}
 Es eficiente ya que toda la potencia va a las bandas, pero tiene algunas serias desventajas: La envolvente de $x_{DSB}(t)$ es $\lvert m(t) \rvert$, no $m(t)$ por lo que precisa detección coherente (que es más compleja y cara), es un sistema de banda angosta y la más grave de todas, requiere perfecta sincronización de la portadora local, ya que si hay errores de frecuencia $\Delta f$ o de fase $\Delta \phi$ puede resultar en atenuación, desvanecimiento, inversión de la señal o incluso puede desaparecer si el oscilador está desfasado en $\Delta \phi = \pi$.  
 
 \subsubsection{Modulación de Amplitud con Portadora de gran Potencia (AM)}
@@ -78,8 +85,22 @@ Donde $A(t)=[A_c+m(t)]$ es la amplitud de la portadora modulada. Suponemos tambi
   X_{AM}(f)=\frac{A_c}{2}[\delta (f+f_c) + \delta (f-f_c)] + \frac{1}{2} [M(f+f_c) + M(f-f_c)]
 \end{equation}
 El sistema de modulación AM primero en el receptor adiciona $A_c$ al mensaje $m(t)$ y luego multiplica por la portadora sinusoidal (modulador AM), y tras pasarlo por un filtro pasabanda, la modulada sale por la antena. Luego, el receptor recibe la señal atenuada y con ruido, la pasa por un filtro de RF y utiliza un detector de envolvente para quedarse con $E(t)$, la cual filtra con un filtro de pasabajos para demodular la señal.
-[Acá debería ir el gráfico del briceño página 451]
-La envolvente de la señal modulada es la señal mensaje desplazada en una constante $A_c$. Esta propiedad permite la extracción de la información mediante un detector de envolvente mientras la constante $A_c$ sea lo suficientemente alta para preservar la forma de la envolvente. Si no se cumple con esto, la envolvente pierde su forma y resulta muy difícil o imposible recuperar $m(t)$, en lo que se conoce como "sobremodulación".
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.9\textwidth]{modulacion_am.png}
+  \caption{Modulación de Amplitud}
+  \label{fig:Modulacion AM}
+\end{figure}
+La envolvente de la señal modulada es la señal mensaje desplazada en una constante $A_c$. Esta propiedad permite la extracción de la información mediante un detector de envolvente mientras la constante $A_c$ sea lo suficientemente alta para preservar la forma de la envolvente. Si no se cumple con esto, la envolvente pierde su forma y resulta muy difícil o imposible recuperar $m(t)$, en lo que se conoce como "sobremodulación". Para evitar la sobremodulación, establecemos ciertas condiciones para $A_c$ y algunos parámetros de interés:
+Suponiendo que $<m(t)>=0$, el mensaje $m(t)$ se puede escribir de la forma siguiente: $m(t)= \lvert \min m(t) \rvert m_n(t)$ donde $\lvert \min m(t) \rvert$ es la máxima excursión negativa de $m(t)$ mientras que $m_n(t)$ es el mensaje normalizado tal que $\lvert \min m(t) \rvert = 1$. Reemplazando en la expresión que tenemos de modulada resulta:
+\begin{equation}
+  \begin{split}
+    x_{AM}(t)=[A_c + \lvert \min m(t) \rvert m_n(t)]\cos(2\pi f_ct)\\
+    x_{AM}(t)=A_c[1 + a\,m_n(t)]\cos(2\pi f_ct)\\
+    a=\frac{\lvert \min m(t) \rvert}{A_c}
+  \end{split}
+\end{equation}
+El término $a$ se define como "índice de modulación AM". Es evidente que la envolvente $A(t) = A_c[1 + a\,m_n(t)]$ debe ser siempre positiva y, por inspección del gráfico (d) de la Figure 2 solo se cumple cuando $A_c \geq \lvert \min m(t) \rvert$, lo cual implica que $0<a<1$. La detección de envolvente se podrá emplear siempre que el índice de modulación $a$ sea igual o menor que la unidad; en estas condiciones la envolvente de la señal AM jamás cruzará el eje $t$ y la porción positiva de la envolvente será una réplica desplazada del mensaje.
 
 \section{Resultados}
 
