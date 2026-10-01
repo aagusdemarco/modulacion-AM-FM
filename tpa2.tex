@@ -96,14 +96,104 @@ Suponiendo que $<m(t)>=0$, el mensaje $m(t)$ se puede escribir de la forma sigui
 \begin{equation}
   \begin{split}
     x_{AM}(t)=[A_c + \lvert \min m(t) \rvert m_n(t)]\cos(2\pi f_ct)\\
-    x_{AM}(t)=A_c[1 + a\,m_n(t)]\cos(2\pi f_ct)\\
-    a=\frac{\lvert \min m(t) \rvert}{A_c}
+    x_{AM}(t)=A_c[1 + a\,m_n(t)]\cos(2\pi f_ct),\quad a=\frac{\lvert \min m(t) \rvert}{A_c}
   \end{split}
 \end{equation}
 El término $a$ se define como "índice de modulación AM". Es evidente que la envolvente $A(t) = A_c[1 + a\,m_n(t)]$ debe ser siempre positiva y, por inspección del gráfico (d) de la Figure 2 solo se cumple cuando $A_c \geq \lvert \min m(t) \rvert$, lo cual implica que $0<a<1$. La detección de envolvente se podrá emplear siempre que el índice de modulación $a$ sea igual o menor que la unidad; en estas condiciones la envolvente de la señal AM jamás cruzará el eje $t$ y la porción positiva de la envolvente será una réplica desplazada del mensaje.
+Como en general la salida del detector de envolvente se aplica a un filtro pasabajo, la componente continua es eliminada, pero también son eliminadas muchas componentes de baja frecuencia de la señal mensaje. Por consiguiente, el sistema AM no es el más apropiado para la transmisión de señales con fuertes componentes de baja frecuencia.
+
+\subsubsection{Potencia y Rendimiento de Transmisión en AM}
+La potencia total $P_T$ de la señal modulada AM es de:
+\begin{equation}
+  P_T=<x_{AM}^2(t)>=\frac{1}{2}<A_c^2 + 2A_cm(t) + m^2(t)>
+\end{equation}
+Pero como $<m(t)> = 0$, entonces:
+\begin{equation}
+  P_T=<x_{AM}^2(t)>=\frac{1}{2}<A_c^2 +\frac{1}{2}<m^2(t)>=P_c+P_B
+\end{equation}
+El primer termino de (10) $P_c$ es la potencia de la portadora, mientras que el segundo $P_B$ es la potencia útil que contiene información y está contenida en las bandas laterales.
+Luego, podemos definir el rendimiento de transmisión $E\%$ como:
+\begin{equation}
+  E\%=\frac{P_B}{P_B+P_c}100=\frac{<m^2(t)>}{A_c^2+<m^2(t)>}100
+\end{equation}
+Y puesto que $m(t)=a\,A_cm_n(t)$ también podemos expresar $E\%$ como:
+\begin{equation}
+  E\%=\frac{a^2<m_n^2(t)>}{1+a^2<m_n^2(t)>}100
+\end{equation}
+Como vimos previamente, la detección de envolvente solo se puede usar cuando $a\leq1$, y como $<m_n^2(t)>\leq1$, se verifica que el rendimiento máximo en AM es del 50\% y se obtiene cuando $m(t)$ es una señal periódica bipolar de amplitud $\pm1$. En el caso de DSB, al no tener portadora, toda la potencia transmitida es útil y por lo tanto su rendimiento es del 100\%.
+\subsubsection{Ancho de Banda y Relaciones S/N en AM}
+La modulación AM es también una modulación de doble banda lateral y por lo tanto su ancho de banda es $B=2f_m$ donde $f_m$ es la frecuencia máxima de la señal mensaje $m(t)$.
+La relación de expansión del ancho de banda $\beta_m=\frac{B}{f_m}$ es igual a 2, por lo que el sistema de modulación AM es de banda angosta en el cuál no hay posibilidad de intercambio "Ancho de Banda-Relación S/N"
+En tanto al efecto del ruido en la modulación AM:
+La señal recibida se puede expresar como:
+\begin{equation}
+  x_r(t)=[A_r + m(t)]\cos(2\pi f_ct)=A_r\cos(2\pi f_ct)+m(t)\cos(2\pi f_ct)
+\end{equation}
+Esta señal aparece a la entrada de nuestro detector de envolventes con potencia:
+\begin{equation}
+  S_i=<x_r^2(t)>=\frac{1}{2}A_r+\frac{1}{2}<m^2(t)>
+\end{equation}
+El ruido a la entrada del detector es ruido blanco pasabanda de densidad espectral $\frac{\eta}{2}$ y se puede representar como:
+\begin{equation}
+  n(t)=n_c(t)\cos(2\pi f_ct)+n_s(t)\sin(2\pi f_ct)=R_n(t)\cos(2\pi f_ct)
+\end{equation}
+Y su potencia a la entrada del detector resulta:
+\begin{equation}
+  N_i=<n^2(t)>=<n_c^2(t)>=<n_s^2(t)>=2\eta f_m
+\end{equation}
+Y la relación Signal to Noise de entrada será de:
+\begin{equation}
+  \frac{S_i}{N_i}=\frac{A_r^2+<m^2(t)>}{2N_i}
+\end{equation}
+A la salida del detector tendremos dos casos según si la potencia de la señal es mucho mayor o mucho menor que la de ruido. Si es mucho menor, la señal queda "capturada" en el ruido o inmersa en ruido multiplicativo y no tiene sentido hablar de S/N ya que la inteligibilidad será nula. Sin embargo, si es mucho mayor, tenemos que $S_o=<m^2(t)>$ y $N_o=<n_c^2(t)>=N_i$ y por ende:
+\begin{equation}
+  \frac{S_o}{N_o}=\frac{<m^2(t)>}{N_i}
+\end{equation}
+La ganancia de conversión de AM será:
+\begin{equation}
+  \frac{S_o/N_o}{S_i/N_i} = 2\frac{<m^2>}{A_r^2}
+\end{equation}
+Pero por la ecuación (11) sabemos que la expresión a la derecha del igual es lo mismo que el doble del rendimiento de transmisión, cuyo valor máximo es 50\%, luego la ganancia de conversión cumple que:
+\begin{equation}
+  \frac{S_o/N_o}{S_i/N_i}\leq1,\quad \left[\frac{S_o/N_o}{S_i/N_i}\right]_{max}=1
+\end{equation}
+
+\subsection{Modulación en Ángulo}
+
+\subsubsection{FM}
+
+\subsubsection{PM}
+
+\subsection{¿Múltiples Canales?}
+La FDM es una operaci\'on mediante la cual varias se\~nales diferentes se transmiten conjunta y simult\'aneamente por un mismo canal, utilizando subportadoras y traslaci\'on de frecuencias. El espectro de cada se\~nal se traslada a una banda diferente, y el espectro compuesto forma una banda base que puede transmitirse con cualquiera de los esquemas de modulaci\'on vistos.
+
+\subsubsection{Transmisor}
+Cada se\~nal individual modula una subportadora diferente $f_{c_i}$ (generalmente de baja frecuencia). Las se\~nales moduladas se suman en un combinador, y la se\~nal compuesta, la banda base, modula un transmisor de RF.
+
+\subsubsection{Receptor}
+El receptor de RF, cuyo ancho de banda debe alcanzar para la se\~nal multicanal, demodula la se\~nal compuesta y la aplica a una bater\'ia de filtros pasabanda centrados en las subportadoras. Cada ancho de banda debe dise\~narse para dejar pasar solo el espectro de su se\~nal. Luego cada mensaje se detecta seg\'un el tipo de modulaci\'on empleado en el transmisor.
+
+\subsubsection{Banda de Guarda y Ancho de Banda}
+Para que no haya solapamiento entre espectros se agrega una banda de guarda $B_g$, que tambi\'en facilita la recuperaci\'on de cada se\~nal con filtros pr\'acticos. El ancho de banda de la banda base de $M$ se\~nales multiplexadas es
+\begin{equation}
+  B_T = (M-1)B_g + \sum_{m=1}^{M} B_m
+\end{equation}
+donde $B_1, B_2, \dots, B_M$ son los anchos de banda de las se\~nales individuales, que dependen del tipo de modulaci\'on, que en nuestro caso es:
+\begin{equation}
+  B = 2f_m \;\; (\text{AM o DSB})
+\end{equation}
+
+Luego, vemos lo detallado en la siguiente figura:
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.9\textwidth]{fdm.png}
+  \caption{Multiplicidad por División de Frecuencias (FDM)}
+  \label{fig:FDM}
+\end{figure}
+
 
 \section{Resultados}
-
+[NOTA MENTAL - PAGINAS 453 Y 454 Y 455 TIENEN CONCLUCIONES SOBRE MODULACION DE UN TONO SINUSOIDAL EN AM]
 \section{Conclusiones}
 
 \section{Código}
