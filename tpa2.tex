@@ -94,10 +94,10 @@ El sistema de modulación AM primero en el receptor adiciona $A_c$ al mensaje $m
 La envolvente de la señal modulada es la señal mensaje desplazada en una constante $A_c$. Esta propiedad permite la extracción de la información mediante un detector de envolvente mientras la constante $A_c$ sea lo suficientemente alta para preservar la forma de la envolvente. Si no se cumple con esto, la envolvente pierde su forma y resulta muy difícil o imposible recuperar $m(t)$, en lo que se conoce como "sobremodulación". Para evitar la sobremodulación, establecemos ciertas condiciones para $A_c$ y algunos parámetros de interés:
 Suponiendo que $<m(t)>=0$, el mensaje $m(t)$ se puede escribir de la forma siguiente: $m(t)= \lvert \min m(t) \rvert m_n(t)$ donde $\lvert \min m(t) \rvert$ es la máxima excursión negativa de $m(t)$ mientras que $m_n(t)$ es el mensaje normalizado tal que $\lvert \min m(t) \rvert = 1$. Reemplazando en la expresión que tenemos de modulada resulta:
 \begin{equation}
-  \begin{split}
-    x_{AM}(t)=[A_c + \lvert \min m(t) \rvert m_n(t)]\cos(2\pi f_ct)\\
-    x_{AM}(t)=A_c[1 + a\,m_n(t)]\cos(2\pi f_ct),\quad a=\frac{\lvert \min m(t) \rvert}{A_c}
-  \end{split}
+  \begin{aligned}
+    x_{AM}(t)&=[A_c + \lvert \min m(t) \rvert m_n(t)]\cos(2\pi f_ct)\\
+    x_{AM}(t)&=A_c[1 + a\,m_n(t)]\cos(2\pi f_ct),\quad a=\frac{\lvert \min m(t) \rvert}{A_c}
+  \end{aligned}
 \end{equation}
 El término $a$ se define como "índice de modulación AM". Es evidente que la envolvente $A(t) = A_c[1 + a\,m_n(t)]$ debe ser siempre positiva y, por inspección del gráfico (d) de la Figure 2 solo se cumple cuando $A_c \geq \lvert \min m(t) \rvert$, lo cual implica que $0<a<1$. La detección de envolvente se podrá emplear siempre que el índice de modulación $a$ sea igual o menor que la unidad; en estas condiciones la envolvente de la señal AM jamás cruzará el eje $t$ y la porción positiva de la envolvente será una réplica desplazada del mensaje.
 Como en general la salida del detector de envolvente se aplica a un filtro pasabajo, la componente continua es eliminada, pero también son eliminadas muchas componentes de baja frecuencia de la señal mensaje. Por consiguiente, el sistema AM no es el más apropiado para la transmisión de señales con fuertes componentes de baja frecuencia.
@@ -159,6 +159,23 @@ Pero por la ecuación (11) sabemos que la expresión a la derecha del igual es l
 \end{equation}
 
 \subsection{Modulación en Ángulo}
+Las señales moduladas en ángulo son señales de envolvente constante y la información esta contenida en la fase instantánea de la portadora. Si tomamos $A(t)=A_c$ constante, resulta en la expresión:
+\begin{equation}
+  x_c(t)=A_c\cos[\theta(t)]=A_c\cos[2\pi f_ct + \phi(t)]
+\end{equation}
+Donde $\theta(t)=[2\pi f_ct + \phi(t)]$ es el ángulo o fase instantánea de la portadora y $\phi(t)$ es la desviación instantánea de fase. Además, definimos frecuencia instantánea $f(i)$ como:
+\begin{equation}
+  f(i)=\frac{1}{2\pi}\frac{d}{dt}[\theta(t)]=f_c+\frac{1}{2\pi}\frac{d}{dt}\phi(t)
+\end{equation}
+También definimos:
+\begin{equation}
+  \begin{aligned}
+    &\delta\phi=\lvert\phi(t)\rvert_{max} = \text{ desviación máxima de fase}\\
+    &\delta f(t)=\frac{1}{2\pi}\frac{d}{dt}\phi(t) = \text{ desviación instantánea de frecuencia}\\
+    &\delta f=\lvert\delta f(t)\rvert_{max}= \text{ desviación máxima de frecuencia}
+  \end{aligned}
+\end{equation}
+La desviación instantánea de fase $\phi(t)$ está relacionada con la señal mensaje y dependiendo de la naturaleza de esa relación se tienen los tipos de modulación en ańgulo.
 
 \subsubsection{FM}
 
