@@ -163,23 +163,70 @@ Las señales moduladas en ángulo son señales de envolvente constante y la info
 \begin{equation}
   x_c(t)=A_c\cos[\theta(t)]=A_c\cos[2\pi f_ct + \phi(t)]
 \end{equation}
-Donde $\theta(t)=[2\pi f_ct + \phi(t)]$ es el ángulo o fase instantánea de la portadora y $\phi(t)$ es la desviación instantánea de fase. Además, definimos frecuencia instantánea $f(i)$ como:
+Donde $\theta(t)=[2\pi f_ct + \phi(t)]$ es el ángulo o fase instantánea de la portadora y $\phi(t)$ es la desviación instantánea de fase. Además, definimos frecuencia instantánea $f_i(t)$ como:
 \begin{equation}
-  f(i)=\frac{1}{2\pi}\frac{d}{dt}[\theta(t)]=f_c+\frac{1}{2\pi}\frac{d}{dt}\phi(t)
+  f_i(t)=\frac{1}{2\pi}\frac{d}{dt}[\theta(t)]=f_c+\frac{1}{2\pi}\frac{d}{dt}\phi(t)
 \end{equation}
 También definimos:
 \begin{equation}
   \begin{aligned}
-    &\delta\phi=\lvert\phi(t)\rvert_{max} = \text{ desviación máxima de fase}\\
-    &\delta f(t)=\frac{1}{2\pi}\frac{d}{dt}\phi(t) = \text{ desviación instantánea de frecuencia}\\
-    &\delta f=\lvert\delta f(t)\rvert_{max}= \text{ desviación máxima de frecuencia}
+    &\Delta\phi=\lvert\phi(t)\rvert_{max} = \text{ desviación máxima de fase}\\
+    &\Delta f(t)=\frac{1}{2\pi}\frac{d}{dt}\phi(t) = \text{ desviación instantánea de frecuencia}\\
+    &\Delta f=\lvert\Delta f(t)\rvert_{max}= \text{ desviación máxima de frecuencia}
   \end{aligned}
 \end{equation}
 La desviación instantánea de fase $\phi(t)$ está relacionada con la señal mensaje y dependiendo de la naturaleza de esa relación se tienen los tipos de modulación en ańgulo.
 
-\subsubsection{FM}
-
 \subsubsection{PM}
+La modulación de fase (Phase Modulation) es aquella en la que la desviación de fase instantánea $\phi (t)$ es proporcional a la señal mensaje, es decir:
+\begin{equation}
+  \phi(t)=k_pm(t)
+\end{equation}
+Donde $k_p$ es la constante de desviación de fase del modulador y se expresa en radianes por unidad de $m(t)$.
+La modulada en PM resulta:
+\begin{equation}
+  x_{PM}(t)=A_c\cos[2\pi f_c t + k_pm(t)]
+\end{equation}
+Además, definimos el índice de modulación angular $\beta$ en la forma:
+\begin{equation}
+  \beta_p = k_pA_m
+\end{equation}
+
+\subsubsection{FM}
+La modulación de frecuencia (Frecuency Modulation) es aquella en la que la desviación instantánea de frecuencia $\Delta f(t)$ es proporcional a la señal mensaje $m(t)$, es decir:
+\begin{equation}
+  \Delta f(t)=\frac{1}{2\pi}\frac{d}{dt}\phi (t)=f_dm(t)
+\end{equation}
+O también mediante integración de (27), obtenemos que la desviación instantánea de fase es proporcional a la integral de la señal mensaje:
+\begin{equation}
+  \phi (t)=2\pi f_d\int_{t_0}^{t} m(\tau) \,d\tau + \phi_0(t_0)
+\end{equation}
+La constante $f_d$ es la constante de desviación de frecuencia del modulador. Algunas veces se define $k_f=2\pi f_d$. El valor de la constante $\phi_0(t_0)$ es la desviación de fase $t=t_0$ que podemos hacerla igual a 0 sin perder generalidad (según el libro).
+La modulada en FM resulta:
+\begin{equation}
+  x_{FM}(t)=A_c\cos[2\pi f_c t + 2\pi f_d\int_{}^{t} m(\tau) \, d\tau]
+\end{equation}
+Además, definimos el índice de modulación angular $\beta$ en la forma:
+\begin{equation}
+  \beta = \frac{f_dA_m}{f_m}=\frac{\Delta f}{f_m}=\Delta \phi
+\end{equation}
+
+\subsubsection{Banda Angosta}
+Partiendo de la ecuación (21), si $\phi (t)$ es muy chico, los valores del índice de modulación $\beta < \frac{\pi}{2}$ y por ende $\cos\phi \approx 1$ y $\sin\phi \approx \phi$. Luego, resulta en:
+\begin{equation}
+  \begin{aligned}
+    &x_c(t) \approx A_c\cos(2\pi f_ct) - A_c\phi (t)\sin(2\pi f_c t)\\
+    &X_c(f) = \frac{A_c}{2}[\delta (f+f_c) + \delta (f-f_c)] + \frac{A_c}{2j}[\Phi (f+f_c) - \Phi (f-f_c)]
+  \end{aligned}
+\end{equation}
+Donde el primer término es la portadora y el segundo es la misma portadora multiplicada por $\phi (t)$ en cuadratura $(90°)$, y genera las bandas laterales. Por lo tanto, si $\phi (t)$ tiene ancho de banda $B$, entonces $B_T= 2B$, al igual que en AM solo que en AM las bandas laterales están en fase mientras que acá están desfasadas $\frac{\pi}{2}$.
+
+\subsubsection{Banda Ancha}
+Para valores grandes de $\phi (t)$, $\beta > \frac{\pi}{2}$ por lo tanto no podemos simplificar el seno y el coseno y hay que quedarse con la función $\phi (t)$ completa, lo que genera más componentes de frecuencia. La fase de la portadora oscila $\beta$ radianes ida y vuelta $f_m$ veces por segundo, resultado de mezclar la portadora con armónicos de $f_m$. Matemáticamente, eso es el desarrollo en funciones de Bessell:
+\begin{equation}
+  x_c(t) = A_c\sum_{n=-\inf}^{\inf}
+\end{equation}
+
 
 \subsection{¿Múltiples Canales?}
 La FDM es una operaci\'on mediante la cual varias se\~nales diferentes se transmiten conjunta y simult\'aneamente por un mismo canal, utilizando subportadoras y traslaci\'on de frecuencias. El espectro de cada se\~nal se traslada a una banda diferente, y el espectro compuesto forma una banda base que puede transmitirse con cualquiera de los esquemas de modulaci\'on vistos.
