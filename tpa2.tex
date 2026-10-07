@@ -330,7 +330,30 @@ Luego, vemos lo detallado en la siguiente figura:
 \end{figure}
 
 \section{Implementación}
-
+\subsection{Tono Puro}
+Usando $m(t)=50\cos(2\pi 440t)$ que corresponde a la nota musical La(A) en la octava 4:
+\subsubsection{Modular en AM}
+Tomo una portadora de amplitud $A_c=200V$ y frecuencia $f_c=790kHz$ (como la Radio Mitre CABA/Buenos Aires) y modulo el tono:
+\begin{equation}
+  x_{AM}(t)=[200V + 50V\cos(2\pi 440\text{Hz}\,t)]\cos[2\pi (790 \times 10^3)\text{Hz}\,t]
+\end{equation}
+De la cual podemos calcular:
+Índice de Modulación:
+\begin{equation}
+  a = \frac{A_m}{A_c}=\frac{50V}{200V}=0,25
+\end{equation}
+Potencia Total:
+\begin{equation}
+  P_T=<x_{AM}^2(t)>=\frac{A_c^2}{2} + \frac{<m^2(t)>}{2}= P_c + P_B = 20000W + 625W = 2625W
+\end{equation}
+Rendimiento de Transmisión:
+\begin{equation}
+  E\%=\frac{P_B}{P_T}\times 100=\frac{P_B}{P_B+P_c}\times 100\approx 23,81\%
+\end{equation}
+Ancho de Banda:
+\begin{equation}
+  B_T=2f_m=2\times440\text{Hz}=880\text{Hz}
+\end{equation}
 
 \section{Resultados}
 [NOTA MENTAL - PAGINAS 453 Y 454 Y 455 TIENEN CONCLUCIONES SOBRE MODULACION DE UN TONO SINUSOIDAL EN AM]
