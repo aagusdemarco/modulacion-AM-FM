@@ -210,6 +210,52 @@ Además, definimos el índice de modulación angular $\beta$ en la forma:
 \begin{equation}
   \beta = \frac{f_dA_m}{f_m}=\frac{\Delta f}{f_m}=\Delta \phi
 \end{equation}
+Usamos FM cuando importa la alta fidelidad y el ancho de banda no es limitante, como en radiodifusión FM, audio de TV, microondas y comunicaciones móviles punto a punto.
+
+\subsubsection{Generación de señales FM}
+Como la señal FM tiene envolvente constante, diseñar generadores y detectores resulta más fácil. No hay picos que provoquen disipación excesiva en los dispositivos. Además, el ruido aditivo casi no afecta a la información, porque esta va en los cruces por cero. En cambio, las variaciones espurias de frecuencia sí hacen daño, porque el detector las interpreta como variaciones de amplitud. Para generar señales FM, hay dos familias: generadores directos y generadores indirectos.\\ 
+En la generación directa, la frecuencia de la portadora se modula directamente con la señal. Alcanza con un oscilador controlado por tensión (VCO), cuya frecuencia de oscilación depende de la tensión de entrada. Como la frecuencia de la portadora tiende a ser inestable, se suele usar un VCO seguido de multiplicadores de frecuencia y un mezclador, con un oscilador que estabiliza la portadora.\\
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.9\textwidth]{fm_directa.png}
+  \caption{Transmisor FM con VCO y Multiplicación de Frecuencia}
+  \label{fig:FM Directa}
+\end{figure}
+\\
+En la generación indirecta, no se modula la frecuencia directamente. Primero se genera una señal de banda angosta con un modulador de fase, que usa una portadora de cristal muy estable, y después se la lleva a banda ancha con multiplicadores de frecuencia. El proceso sigue este orden. La señal $m(t)$ pasa por un integrador, de modo que la modulación de fase posterior se comporta como FM. Luego entra al modulador de fase de banda angosta, que produce una señal FM con desviación muy pequeña. Después va a un primer multiplicador $(n_1)$, que aumenta la portadora y la desviación. El mezclador traslada el espectro sin cambiar su ancho de banda, y un segundo multiplicador $(n_2)$ vuelve a multiplicar. Por último, el amplificador de potencia de RF entrega la señal. Los factores de multiplicación los fija la desviación máxima que se quiere lograr. Como el resultado puede no coincidir con la portadora de transmisión $f_c$, el mezclador traslada el espectro a la frecuencia correcta. Se coloca en el medio de la cadena para que las frecuencias intermedias no resulten demasiado altas.\\
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.9\textwidth]{fm_indirecta.png}
+  \caption{Transmisor Armstrong de FM Indirecta}
+  \label{fig:FM Indirecta}
+\end{figure}
+\\
+\subsubsection{Detección de señales FM}
+La demodulación de una señal modulada FM requiere un dispositivo cuya salida sea proporcional a la frecuencia de entrada. Estos dispositivos se denominan comúnmente “discriminadores”. Si la entrada al discriminador es una señal modulada en ángulo de la forma $x_r(t)=A_r\cos[2\pi f_ct + \phi(t)]$, la salida del discriminador ideal es:
+\begin{equation}
+  y_D(t)=\frac{k_D}{2\pi}\frac{d}{dt}\phi(t)
+\end{equation}
+Pero en FM $\phi(t)=2\pi f_d\int_{}^{t} m(\tau) \, d\tau$ y $\frac{d}{dt}\phi(t)=2\pi f_d m(t)$, entonces:
+\begin{equation}
+  y_D(t)=k_Df_dm(t)=k_D\Delta f(t)
+\end{equation}
+\\
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.9\textwidth]{fm_discriminador.png}
+  \caption{Discriminador de Señales Moduladas en Frecuencia}
+  \label{fig:FM Discriminador}
+\end{figure}
+El discriminador se puede instrumentar en la práctica mediante un diferenciador seguido de un detector de envolvente, como se muestra en la Figure 5. El diferenciador convierte la FM en una señal tipo AM cuya envolvente es $E(t)=A_r[f_c + f_dm(t)]$, y el detector la recupera sin distorsión si $f_c \geq \Delta f$
+\\
+Esta forma de demodulación de señales FM se denomina “demodulación por detección de pendiente”. Uno de los principales problemas con este método es que el detector es muy sensible a variaciones espurias en la amplitud de la señal FM debidas al ruido aditivo. A fin de asegurarse que la amplitud de la entrada al diferenciador sea constante, se coloca a su entrada un limitador. Este limitador recorta la señal de entrada y la convierte en una señal cuasi-rectangular que lleva la información en los cruces por cero. Esta señal se filtra en un filtro pasabanda centrado en $f_c$ para convertirla en la forma cuasi-sinusoidal requerida por el detector de envolvente. Normalmente el limitador y el filtro pasabanda están integrados en la misma unidad, conocida como “limitador pasabanda”.
+\\
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.9\textwidth]{fm_receptor.png}
+  \caption{Diagrama de Bloques de un Receptor FM típico}
+  \label{fig:FM Receptor}
+\end{figure}
 
 \subsubsection{Banda Angosta}
 Partiendo de la ecuación (21), si $\phi (t)$ es muy chico, los valores del índice de modulación $\beta < \frac{\pi}{2}$ y por ende $\cos\phi \approx 1$ y $\sin\phi \approx \phi$. Luego, resulta en:
@@ -222,12 +268,38 @@ Partiendo de la ecuación (21), si $\phi (t)$ es muy chico, los valores del índ
 Donde el primer término es la portadora y el segundo es la misma portadora multiplicada por $\phi (t)$ en cuadratura $(90^\circ)$, y genera las bandas laterales. Por lo tanto, si $\phi (t)$ tiene ancho de banda $B$, entonces $B_T= 2B$, al igual que en AM solo que en AM las bandas laterales están en fase mientras que acá están desfasadas $\frac{\pi}{2}$.
 
 \subsubsection{Banda Ancha}
-Para valores grandes de $\phi (t)$, $\beta > \frac{\pi}{2}$ por lo tanto no podemos simplificar el seno y el coseno y hay que quedarse con la función $\phi (t)$ completa, lo que genera más componentes de frecuencia. La fase de la portadora oscila $\beta$ radianes ida y vuelta $f_m$ veces por segundo, resultado de mezclar la portadora con armónicos de $f_m$. Matemáticamente, eso es el desarrollo en funciones de Bessell:
+Para valores grandes de $\phi (t)$, $\beta > \frac{\pi}{2}$ por lo tanto no podemos simplificar el seno y el coseno y hay que quedarse con la función $\phi (t)$ completa, lo que genera más componentes de frecuencia. La fase de la portadora oscila $\beta$ radianes ida y vuelta $f_m$ veces por segundo, resultado de mezclar la portadora con armónicos de $f_m$. Matemáticamente, eso es el desarrollo en funciones de Bessel:
 \begin{equation}
   x_c(t) = A_c\sum_{n=-\infty}^{\infty} J_n(\beta)\cos[2\pi(f_c+nf_mt)]
 \end{equation}
 Cada término es una línea espectral en $f_c+n\,f_m$ con amplitud $A_cJ_n(\beta)$, de modo tal que en $n=0$ está la portadora con amplitud $A_cJ_0(\beta)$ y todas las demás son bandas laterales. Además, $J_n(\beta)$ es despreciable cuando $n>\beta$, por lo que de ahí sacamos las bandas laterales que nos importan.
 Luego, partiendo de $\beta = \frac{\Delta f}{f_m}$ el ancho de banda en FM de banda ancha se calcula como $B_T=2(\beta+1)f_m$. 
+
+\subsubsection{Potencia y Rendimiento en FM}
+Como la envolvente de la señal es constante en modulación angular, la potencia promedio tanto en banda angosta como en banda ancha es:
+\begin{equation}
+  P_T=<x_c^2(t)>=\frac{A_c}{2}\left[ J_0^2(\beta) + 2 \sum_{n=1}^{\infty} J_n^2(\beta) \right]=\frac{A_c^2}{2}
+\end{equation}
+En este caso, la potencia total no cambia con el índice de modulación, sino que varía cuanta potencia va en la portadora y cuanta va en las bandas laterales.
+Luego, si un filtro deja pasar solamente k laterales a cada lado, definimos fracción de potencia transmitida como:
+\begin{equation}
+  P_r=J_0^2(\beta) + 2 \sum_{n=1}^{k} J_n^2(\beta)
+\end{equation}
+Con $P_r \geq 0,98$ se cumple que $k \approx \lfloor \beta + 1 \rfloor$, y de $B_T=2kf_m$ resulta $B_T\approx 2(\beta + 1)f_m$, que contiene siempre (usando la tabla de Bessel) el $98\%$ de la señal.
+
+\subsubsection{Relacion S/N en FM}
+A partir del esquema del receptor, asumiendo que podemos separar el ruido y la señal para calcularlos (es decir, $m(t)=0$ para calcular el ruido y que no hay ruido para la señal) tenemos:
+\begin{equation}
+  \frac{S_i}{N_i}=\frac{A_r^2}{2\eta B_T} \text{Predetección}
+\end{equation}
+\begin{equation}
+  \frac{S_o}{N_o}=\frac{3A_r^2f_d^2<m^2(t)>}{2\eta f_m^3} \text{Postdetección}
+\end{equation}
+El ruido a la salida del discriminador no es plano, es parabólico (crece con $f^2$) y por eso $N_o=\frac{2}{3} \left( \frac{k_D}{A_r} \right)^2\eta f_m^3$.
+Luego, la ganancia de conversión resulta:
+\begin{equation}
+  \frac{S_o/N_o}{S_i/N_i}=\frac{3}{4} \left( \frac{B_T}{f_m} \right)^3 <m^2(t)>.
+\end{equation}
 
 \subsection{¿Múltiples Canales?}
 La FDM es una operaci\'on mediante la cual varias se\~nales diferentes se transmiten conjunta y simult\'aneamente por un mismo canal, utilizando subportadoras y traslaci\'on de frecuencias. El espectro de cada se\~nal se traslada a una banda diferente, y el espectro compuesto forma una banda base que puede transmitirse con cualquiera de los esquemas de modulaci\'on vistos.
@@ -249,12 +321,15 @@ donde $B_1, B_2, \dots, B_M$ son los anchos de banda de las se\~nales individual
 \end{equation}
 
 Luego, vemos lo detallado en la siguiente figura:
+\\
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.9\textwidth]{fdm.png}
   \caption{Multiplicidad por División de Frecuencias (FDM)}
   \label{fig:FDM}
 \end{figure}
+
+\section{Implementación}
 
 
 \section{Resultados}
