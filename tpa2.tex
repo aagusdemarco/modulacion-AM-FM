@@ -219,14 +219,15 @@ Partiendo de la ecuación (21), si $\phi (t)$ es muy chico, los valores del índ
     &X_c(f) = \frac{A_c}{2}[\delta (f+f_c) + \delta (f-f_c)] + \frac{A_c}{2j}[\Phi (f+f_c) - \Phi (f-f_c)]
   \end{aligned}
 \end{equation}
-Donde el primer término es la portadora y el segundo es la misma portadora multiplicada por $\phi (t)$ en cuadratura $(90°)$, y genera las bandas laterales. Por lo tanto, si $\phi (t)$ tiene ancho de banda $B$, entonces $B_T= 2B$, al igual que en AM solo que en AM las bandas laterales están en fase mientras que acá están desfasadas $\frac{\pi}{2}$.
+Donde el primer término es la portadora y el segundo es la misma portadora multiplicada por $\phi (t)$ en cuadratura $(90^\circ)$, y genera las bandas laterales. Por lo tanto, si $\phi (t)$ tiene ancho de banda $B$, entonces $B_T= 2B$, al igual que en AM solo que en AM las bandas laterales están en fase mientras que acá están desfasadas $\frac{\pi}{2}$.
 
 \subsubsection{Banda Ancha}
 Para valores grandes de $\phi (t)$, $\beta > \frac{\pi}{2}$ por lo tanto no podemos simplificar el seno y el coseno y hay que quedarse con la función $\phi (t)$ completa, lo que genera más componentes de frecuencia. La fase de la portadora oscila $\beta$ radianes ida y vuelta $f_m$ veces por segundo, resultado de mezclar la portadora con armónicos de $f_m$. Matemáticamente, eso es el desarrollo en funciones de Bessell:
 \begin{equation}
-  x_c(t) = A_c\sum_{n=-\inf}^{\inf}
+  x_c(t) = A_c\sum_{n=-\infty}^{\infty} J_n(\beta)\cos[2\pi(f_c+nf_mt)]
 \end{equation}
-
+Cada término es una línea espectral en $f_c+n\,f_m$ con amplitud $A_cJ_n(\beta)$, de modo tal que en $n=0$ está la portadora con amplitud $A_cJ_0(\beta)$ y todas las demás son bandas laterales. Además, $J_n(\beta)$ es despreciable cuando $n>\beta$, por lo que de ahí sacamos las bandas laterales que nos importan.
+Luego, partiendo de $\beta = \frac{\Delta f}{f_m}$ el ancho de banda en FM de banda ancha se calcula como $B_T=2(\beta+1)f_m$. 
 
 \subsection{¿Múltiples Canales?}
 La FDM es una operaci\'on mediante la cual varias se\~nales diferentes se transmiten conjunta y simult\'aneamente por un mismo canal, utilizando subportadoras y traslaci\'on de frecuencias. El espectro de cada se\~nal se traslada a una banda diferente, y el espectro compuesto forma una banda base que puede transmitirse con cualquiera de los esquemas de modulaci\'on vistos.
