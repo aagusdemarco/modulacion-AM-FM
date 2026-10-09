@@ -331,34 +331,52 @@ Luego, vemos lo detallado en la siguiente figura:
 
 \section{Implementación}
 \subsection{Tono Puro}
-Usando $m(t)=50\cos(2\pi 440t)$ que corresponde a la nota musical La(A) en la octava 4:
-\subsubsection{Modular en AM}
-Tomo una portadora de amplitud $A_c=200V$ y frecuencia $f_c=790kHz$ (como la Radio Mitre CABA/Buenos Aires) y modulo el tono:
+Usando $m(t)=50\cos(2\pi 440t)$ que corresponde a la nota musical La(A) en la octava 4, de potencia $<m^2(t)>=\frac{A_m^2}{2}=\frac{(50V)^2}{2}=1250V^2$:
+\subsubsection{Modular en Amplitud (AM)}
+Tomo una portadora de amplitud $A_c=100V$ y frecuencia $f_c=790kHz$ (como la Radio Mitre CABA/Buenos Aires) y modulo el tono:
 \begin{equation}
-  x_{AM}(t)=[200V + 50V\cos(2\pi 440\text{Hz}\,t)]\cos[2\pi (790 \times 10^3)\text{Hz}\,t]
+  x_{AM}(t)=[100V + 50V\cos(2\pi 440\text{Hz}\,t)]\cos[2\pi (790 \times 10^3)\text{Hz}\,t]
 \end{equation}
 De la cual podemos calcular:
 Índice de Modulación:
 \begin{equation}
-  a = \frac{A_m}{A_c}=\frac{50V}{200V}=0,25
+  a = \frac{A_m}{A_c}=\frac{50V}{100V}=0,5
 \end{equation}
 Potencia Total:
 \begin{equation}
-  P_T=<x_{AM}^2(t)>=\frac{A_c^2}{2} + \frac{<m^2(t)>}{2}= P_c + P_B = 20000W + 625W = 2625W
+  P_T=<x_{AM}^2(t)>=\frac{A_c^2}{2} + \frac{<m^2(t)>}{2}= P_c + P_B = 5000W + 625W = 5625W
 \end{equation}
 Rendimiento de Transmisión:
 \begin{equation}
-  E\%=\frac{P_B}{P_T}\times 100=\frac{P_B}{P_B+P_c}\times 100\approx 23,81\%
+  E\%=\frac{P_B}{P_T}\times 100=\frac{P_B}{P_B+P_c}\times 100\approx 11,12\%
 \end{equation}
 Ancho de Banda:
 \begin{equation}
   B_T=2f_m=2\times440\text{Hz}=880\text{Hz}
 \end{equation}
+\subsubsection{Modular en Ángulo (FM y PM)}
+Tomo una portadora de amplitud $A_c=100V$ y frecuencia $f_c=102,3MHz$ (como la Radio Aspen CABA/Buenos Aires) y modulo el tono:
+\begin{equation}
+  x_{FM}(t)=100V\cos\left[ 2\pi 102,3\times 10^6t\,\text{Hz} + 2\pi f_d\int_{}^{t} 50V\cos(2\pi 440\text{Hz}\,\tau)\, d\tau \right]
+\end{equation}
+\begin{equation}
+  x_{PM}(t)=100V\cos[2\pi 102,3\times 10^6t\,\text{Hz} + k_p\,50V\cos(2\pi 440\text{Hz}\,t)]
+\end{equation}
+La potencia de la modulada es siempre $\frac{A_c^2}{2}$ ya que es de envolvente constante por lo tanto $P_T=P_c=5000W$. Lo que si cambia es como se distribuye la potencia a lo largo de sus bandas laterales, según si es de banda angosta o banda ancha.
+Para FM de banda angosta, se debe cumplir que $\beta < \frac{\pi}{2}$, y como $\beta =\frac{f_dA_m}{f_m}=f_d\frac{50V}{440Hz}$ despejamos $f_d$ para $\beta = 0,2$ en banda angosta y $\beta = 5$ en banda ancha:
+
+Banda Angosta:
+\begin{equation}
+  x_{FM}(t)=100V\cos\left[ 2\pi 102,3\times 10^6t\,\text{Hz} + 2\pi\, 1,76\text{ Hz/V}\int_{}^{t} 50V\cos(2\pi 440\text{Hz}\,\tau)\, d\tau \right]
+\end{equation}
+
+Banda Ancha:
+\begin{equation}
+  x_{FM}(t)=100V\cos\left[ 2\pi 102,3\times 10^6t\,\text{Hz} + 2\pi\, 44\text{ Hz/V}\int_{}^{t} 50V\cos(2\pi 440\text{Hz}\,\tau)\, d\tau \right]
+\end{equation}
 
 \section{Resultados}
 [NOTA MENTAL - PAGINAS 453 Y 454 Y 455 TIENEN CONCLUCIONES SOBRE MODULACION DE UN TONO SINUSOIDAL EN AM]
 \section{Conclusiones}
-
-\section{Código}
 
 \end{document}
